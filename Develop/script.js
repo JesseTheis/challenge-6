@@ -1,12 +1,18 @@
-const apiKey = `dd499c53bfc32f27c1bfd797dc62f32e`; // Replace with your OpenWeather API key
+// const fetch = require('node-fetch');
+// const fs = require('fs');
+// const queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+
+
+// fetch(queryURL)
+const apiKey = `54c3e9fee4104a1e75dea4cf4e4b7f76`; // Replace with your OpenWeather API key
 //listens for a click on the search button
-document.getElementById('search-button').addEventListener('click', function() {
+document.getElementById('search-button').addEventListener('click', function () {
     const city = document.getElementById('city-search').value;
     getCoordinates(city);
 });
 //getting the coordinates of the city that the user inputs
 function getCoordinates(city) {
-    const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=54c3e9fee4104a1e75dea4cf4e4b7f76`;
     fetch(geoUrl)
         .then(response => response.json())
         .then(data => {
@@ -21,7 +27,7 @@ function getCoordinates(city) {
 }
 //getting the weather data of the city that the user inputs
 function getWeather(lat, lon, city) {
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=54c3e9fee4104a1e75dea4cf4e4b7f76`;
     fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {
@@ -40,7 +46,7 @@ function updateCurrentWeather(data, city) {
     const humidity = data.list[0].main.humidity;
     const icon = data.list[0].weather[0].icon;
     currentWeather.innerHTML = `
-        <h1>${city} (${date}) <img src=“http://openweathermap.org/img/wn/${icon}.png” alt=“weather icon”></h1>
+        <h1>${city} (${date}) <img src="https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=54c3e9fee4104a1e75dea4cf4e4b7f76" alt="weather icon"></h1>
         <p>Temp: ${temp} °F</p>
         <p>Wind: ${wind} MPH</p>
         <p>Humidity: ${humidity} %</p>
@@ -50,19 +56,19 @@ function updateCurrentWeather(data, city) {
 function updateForecast(data) {
     const forecastContainer = document.getElementById('forecast-container');
     forecastContainer.innerHTML = '';
-//looping through the data and displaying the forecast of the city that the user inputs
+    //looping through the data and displaying the forecast of the city that the user inputs
     for (let i = 0; i < 5; i++) {
         const date = new Date(data.list[i * 8].dt * 1000).toLocaleDateString();
         const temp = data.list[i * 8].main.temp;
         const wind = data.list[i * 8].wind.speed;
         const humidity = data.list[i * 8].main.humidity;
         const icon = data.list[i * 8].weather[0].icon;
-//creating a div element and adding the forecast data to the div element
+        //creating a div element and adding the forecast data to the div element
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item');
         forecastItem.innerHTML = `
             <p>${date}</p>
-            <p><img src=“http://openweathermap.org/img/wn/${icon}.png” alt=“weather icon”></p>
+            <p><img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon"></p>
             <p>Temp: ${temp} °F</p>
             <p>Wind: ${wind} MPH</p>
             <p>Humidity: ${humidity} %</p>
@@ -84,7 +90,7 @@ function displayCityHistory() {
     const cityButtons = document.getElementById('city-buttons');
     cityButtons.innerHTML = '';
     let cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
-//looping through the city history and displaying the city history
+    //looping through the city history and displaying the city history
     cityHistory.forEach(city => {
         const cityButton = document.createElement('div');
         cityButton.classList.add('city-button');
