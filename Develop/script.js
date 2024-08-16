@@ -4,7 +4,7 @@
 
 
 // fetch(queryURL)
-const apiKey = `78962aae439ff9d8160fe52433d40b48`; 
+const apiKey = '78962aae439ff9d8160fe52433d40b48'; 
 //listens for a click on the search button
 document.getElementById('search-button').addEventListener('click', function () {
     const city = document.getElementById('city-search').value;
@@ -57,13 +57,18 @@ function updateForecast(data) {
     const forecastContainer = document.getElementById('forecast-container');
     forecastContainer.innerHTML = '';
     //looping through the data and displaying the forecast of the city that the user inputs
-    for (let i = 0; i < 5; i++) {
-        const date = new Date(data.list[i * 8].dt * 1000).toLocaleDateString();
-        const temp = data.list[i * 8].main.temp;
-        const wind = data.list[i * 8].wind.speed;
-        const humidity = data.list[i * 8].main.humidity;
-        const icon = data.list[i * 8].weather[0].icon;
-        //creating a div element and adding the forecast data to the div element
+
+    const forecastLength = Math.min(5, Math.floor(data.list.length / 8));
+
+    for (let i = 0; i < forecastLength; i++) {
+        const forecastData = data.list[i * 8];  // Safely access the forecast data
+    
+        const date = new Date(forecastData.dt * 1000).toLocaleDateString();
+        const temp = forecastData.main.temp;
+        const wind = forecastData.wind.speed;
+        const humidity = forecastData.main.humidity;
+        const icon = forecastData.weather[0].icon;
+    
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item');
         forecastItem.innerHTML = `
@@ -75,6 +80,24 @@ function updateForecast(data) {
         `;
         forecastContainer.appendChild(forecastItem);
     }
+    // for (let i = 0; i < 5; i++) {
+    //     const date = new Date(data.list[i * 8].dt * 1000).toLocaleDateString();
+    //     const temp = data.list[i * 8].main.temp;
+    //     const wind = data.list[i * 8].wind.speed;
+    //     const humidity = data.list[i * 8].main.humidity;
+    //     const icon = data.list[i * 8].weather[0].icon;
+    //     //creating a div element and adding the forecast data to the div element
+    //     const forecastItem = document.createElement('div');
+    //     forecastItem.classList.add('forecast-item');
+    //     forecastItem.innerHTML = `
+    //         <p>${date}</p>
+    //         <p><img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon"></p>
+    //         <p>Temp: ${temp} °F</p>
+    //         <p>Wind: ${wind} MPH</p>
+    //         <p>Humidity: ${humidity} %</p>
+    //     `;
+    //     forecastContainer.appendChild(forecastItem);
+    // }
 }
 //adding the city to the search history
 function addCityToHistory(city) {
