@@ -4,7 +4,7 @@
 
 
 // fetch(queryURL)
-const apiKey = `bdd4bf638a34df48c04cf91c86e2219b`; // Replace with your OpenWeather API key
+const apiKey = `78962aae439ff9d8160fe52433d40b48`; 
 //listens for a click on the search button
 document.getElementById('search-button').addEventListener('click', function () {
     const city = document.getElementById('city-search').value;
@@ -12,7 +12,7 @@ document.getElementById('search-button').addEventListener('click', function () {
 });
 //getting the coordinates of the city that the user inputs
 function getCoordinates(city) {
-    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=bdd4bf638a34df48c04cf91c86e2219b`;
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
     fetch(geoUrl)
         .then(response => response.json())
         .then(data => {
@@ -27,7 +27,7 @@ function getCoordinates(city) {
 }
 //getting the weather data of the city that the user inputs
 function getWeather(lat, lon, city) {
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=bdd4bf638a34df48c04cf91c86e2219b`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
     fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {
@@ -46,7 +46,7 @@ function updateCurrentWeather(data, city) {
     const humidity = data.list[0].main.humidity;
     const icon = data.list[0].weather[0].icon;
     currentWeather.innerHTML = `
-        <h1>${city} (${date}) <img src="https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=bdd4bf638a34df48c04cf91c86e2219b" alt="weather icon"></h1>
+        <h1>${city} (${date}) <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon"></h1>
         <p>Temp: ${temp} °F</p>
         <p>Wind: ${wind} MPH</p>
         <p>Humidity: ${humidity} %</p>
